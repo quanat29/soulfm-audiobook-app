@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+ <item
+     android:id="@+id/menu_func_chapter"
+     android:icon="@drawable/list"
+     android:title="Chương"/>
+
+ <item
+     android:id="@+id/menu_func_timer"
+     android:icon="@drawable/alarm_clock"
+     android:title="Hẹn Giờ"/>
+
+ <item
+     android:id="@+id/menu_func_speed"
+     android:icon="@drawable/microphone"
+     android:title="Tốc độ"/>
+</menu>

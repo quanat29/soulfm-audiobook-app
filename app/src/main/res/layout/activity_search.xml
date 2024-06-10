@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.SearchActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/orange"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TableRow >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="0.5"
+                    android:padding="5dp"
+                    android:background="@drawable/custom_search_bar">
+
+                    <ImageView
+                        android:id="@+id/iv_icon_search"
+                        android:layout_height="20dp"
+                        android:layout_width="20dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/search"/>
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:textSize="15sp"
+                        android:layout_toRightOf="@id/iv_icon_search"
+                        android:background="@android:color/transparent"
+                        android:layout_marginRight="12dp"
+                        android:hint="Nhập từ khóa tìm kiếm"/>
+
+                    <ImageView
+                        android:layout_height="12dp"
+                        android:layout_width="12dp"
+                        android:layout_gravity="center"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:visibility="invisible"
+                        android:src="@drawable/close"/>
+                </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:layout_gravity="center_vertical|end"
+                        android:textAlignment="textEnd"
+                        android:textSize="15sp"
+                        android:layout_marginRight="5dp"
+                        android:textColor="@color/white"
+                        android:text="Hủy"/>
+                </TableRow>
+
+            </TableLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/custom_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Có thể bạn thích"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="15dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_list_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"/>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.example.soulfm.activities.BookDetailActivity"
+    android:background="@drawable/orange_background"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+
+        <ImageView
+            android:id="@+id/iv_icon_back_detail"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back_icon"
+            app:tint="@color/white" />
+
+
+            <ImageView
+                android:id="@+id/iv_icon_heart_detail"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:padding="5dp"
+                android:foregroundGravity="center"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/white_oval_background"
+                android:src="@drawable/favourite"
+                app:tint="@color/white" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_book_detail"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/image_book"/>
+
+        <TextView
+            android:id="@+id/tv_name_book"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cô vợ quân nhân"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:padding="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/iv_book_detail"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_numRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="13 đánh giá"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:padding="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/iv_book_detail"
+            android:layout_below="@id/tv_name_book"/>
+
+        <RatingBar
+            android:id="@+id/rb_numStar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_numRating"
+            android:layout_alignStart="@id/iv_book_detail"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="0dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressBackgroundTint="@color/gray"
+            android:progressTint="@color/yellow"
+            android:rating="4"
+            android:scaleX="0.4"
+            android:scaleY="0.4" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <Button
+            android:id="@+id/btn_listen_book"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:background="@drawable/custom_btn"
+            android:text="Nghe đầy đủ"/>
+    </RelativeLayout>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_marginTop="20dp"
+       android:background="@drawable/custom_rcv_bookcollection">
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="Giới thiệu nội dung"
+           android:layout_marginTop="20dp"
+           android:layout_marginRight="10dp"
+           android:layout_marginLeft="10dp"
+           android:textColor="@color/black"
+           android:textSize="20sp"
+           android:textStyle="bold"/>
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="10dp"
+           android:layout_marginRight="10dp"
+           android:layout_marginLeft="10dp">
+
+           <TextView
+               android:id="@+id/tv_book_introduce"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:textColor="@color/black"
+               android:maxLines="5"
+               android:text="Nội dung tóm tắt"/>
+
+           <ImageView
+               android:id="@+id/iv_read_more"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@id/tv_book_introduce"
+               android:layout_centerInParent="true"
+               android:src="@drawable/baseline_keyboard_arrow_down_24"
+               app:tint="@color/black" />
+
+       </RelativeLayout>
+
+       <TableLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="25dp"
+           android:layout_marginRight="10dp"
+           android:layout_marginLeft="10dp"
+           android:padding="5dp">
+
+           <TableRow
+               android:layout_marginBottom="10dp">
+               <TextView
+                   android:layout_height="match_parent"
+                   android:layout_width="wrap_content"
+                   android:text="Thể loại"
+                   android:layout_weight="0.5"
+                   android:textColor="@color/black"/>
+
+               <TextView
+                   android:id="@+id/tv_book_category"
+                   android:layout_height="match_parent"
+                   android:layout_width="wrap_content"
+                   android:text="Ngôn tình"
+                   android:layout_weight="0.5"
+                   android:textColor="@color/black"
+                   android:textAlignment="textEnd"/>
+           </TableRow>
+
+           <TableRow
+               android:layout_marginBottom="10dp">
+               <TextView
+                   android:layout_height="match_parent"
+                   android:layout_width="wrap_content"
+                   android:text="Tác giả"
+                   android:layout_weight="0.5"
+                   android:textColor="@color/black"/>
+
+               <TextView
+                   android:id="@+id/tv_author_name_detail"
+                   android:layout_height="match_parent"
+                   android:layout_width="wrap_content"
+                   android:text="Huỳnh Hạ"
+                   android:textColor="@color/black"
+                   android:layout_weight="0.5"
+                   android:textAlignment="textEnd"/>
+           </TableRow>
+       </TableLayout>
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="40dp">
+
+           <androidx.viewpager2.widget.ViewPager2
+               android:id="@+id/view_pager_book_detail"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/bottom_navigation_book_detail"/>
+           <com.google.android.material.bottomnavigation.BottomNavigationView
+               android:id="@+id/bottom_navigation_book_detail"
+               android:layout_width="match_parent"
+               android:layout_height="40dp"
+               android:layout_alignParentStart="true"
+               android:paddingBottom="5dp"
+               app:itemTextColor="@color/custom_bottom"
+               app:itemIconTint="@color/custom_bottom"
+               android:background="@drawable/custom_rcv_bookdetail"
+               app:menu="@menu/menu_chapter"/>
+
+       </RelativeLayout>
+   </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

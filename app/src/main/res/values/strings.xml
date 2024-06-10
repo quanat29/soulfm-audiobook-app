@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SoulFM</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hoi_vien">NGHE SÁCH KHÔNG GIỚI HẠN VỚI GÓI HỘI VIÊN SOULFM</string>
+    <string name="rules">Thanh toán sẽ được tính cho tài khoản <i>Google Play</i> của bạn khi bạn xác thực mua hàng.Bạn có thể quản lý và hủy gia hạn bằng cách truy cập mục Cài đặt tài khoản trên <i>Google Play</i> sau khi thanh toán.</string>
+    <string name="terms_of_use">I agree to the <b>terms of use</b></string>
+</resources>

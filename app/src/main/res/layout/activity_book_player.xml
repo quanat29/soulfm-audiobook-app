@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/orange_background"
+    tools:context=".activities.BookPlayerActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/iv_btn_down"
+            android:layout_width="30dp"
+            android:background="@drawable/black_oval_background"
+            android:layout_height="30dp"
+            android:src="@drawable/baseline_keyboard_arrow_down_24"
+            app:tint="@color/white" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="20dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_image_book_player"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_rectangle"
+            android:src="@drawable/image_book"/>
+
+        <TextView
+            android:id="@+id/tv_name_chapter_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:layout_margin="15dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:text="Chương 3: Sống lại thành tân binh (3)"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/tv_seekbar_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="@color/white" />
+
+        <SeekBar
+            android:id="@+id/sb_play"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:progressDrawable="@drawable/custom_seebar"
+            android:thumb="@drawable/custom_thumb"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/iv_btn_back_15s"
+                    android:layout_width="10dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="0.2"
+                    android:layout_gravity="center"
+                    android:src="@drawable/refresh_arrow_left"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/iv_btn_previous"
+                    android:layout_width="10dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="0.2"
+                    android:layout_gravity="center"
+                    android:src="@drawable/previous"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/iv_btn_play"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.2"
+                    android:src="@drawable/play_button"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/iv_btn_next"
+                    android:layout_width="10dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="0.2"
+                    android:layout_gravity="center"
+                    android:src="@drawable/next"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/iv_btn_next_15s"
+                    android:layout_width="10dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="0.2"
+                    android:layout_gravity="center"
+                    android:src="@drawable/refresh_arrow_right"
+                    app:tint="@color/white" />
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

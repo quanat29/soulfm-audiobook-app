@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_mini_player"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:layout_margin="15dp"
+    android:background="@drawable/custom_mini_player"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:layout_gravity="end"
+            android:background="@drawable/black_background"
+            android:src="@drawable/close"
+            app:tint="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_background"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_image_book"
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center"
+                android:src="@drawable/image_book"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_toRightOf="@+id/iv_image_book"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_name_mini"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cô vợ quân nhân"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tv_chapter_mini"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="Huỳnh Hạ" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_play_mini"
+                android:layout_height="35dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_gravity="center"
+                android:src="@drawable/play_button"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/iv_close_mini"
+                android:layout_height="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_gravity="center"
+                android:src="@drawable/next"
+                app:tint="@color/white" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
