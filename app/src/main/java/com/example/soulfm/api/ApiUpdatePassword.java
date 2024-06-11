@@ -20,5 +20,5 @@ public interface ApiUpdatePassword {
 
     @FormUrlEncoded
     @POST("update_password.php")
-    Call<Void> updatePassword(@Field("username") String username, @Field("phone") String phone, @Field("new_password") String newPassword);
+    Call<Void> updatePassword(@Field("Tendangnhap") String username, @Field("Sdt") String phone, @Field("Matkhau") String newPassword);
 }

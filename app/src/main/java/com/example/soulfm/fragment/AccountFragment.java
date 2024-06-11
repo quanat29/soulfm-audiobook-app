@@ -1,49 +1,47 @@
 package com.example.soulfm.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.soulfm.R;
+import com.example.soulfm.activities.LoginActivity;
+import com.example.soulfm.api.ApiUpdateUserInfo;
+import com.example.soulfm.api.ApiUserInfo;
+import com.example.soulfm.user.User;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AccountFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class AccountFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String ARG_ID_USER = "Id_user";
+    private int Id_user;
+    private TextView tv_username_account, tv_change_account, tv_phone_account;
+    private Button btn_log_out;
 
     public AccountFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AccountFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AccountFragment newInstance(String param1, String param2) {
+    public static AccountFragment newInstance(int Id_user) {
         AccountFragment fragment = new AccountFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_ID_USER, Id_user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,8 +50,8 @@ public class AccountFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            Id_user = getArguments().getInt(ARG_ID_USER);
+            Log.d("AccountFragment", "Id_user: " + Id_user);
         }
     }
 
@@ -61,6 +59,118 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        View view = inflater.inflate(R.layout.fragment_account, container, false);
+        tv_username_account = view.findViewById(R.id.tv_username_account);
+        tv_phone_account = view.findViewById(R.id.tv_phone_account);
+        tv_change_account = view.findViewById(R.id.tv_change_account);
+        btn_log_out = view.findViewById(R.id.btn_log_out);
+        loadUserInfo();
+
+        tv_change_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showEditUsernameDialog();
+            }
+        });
+
+        btn_log_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+
+        return view;
+    }
+
+    private void loadUserInfo() {
+        ApiUserInfo.apiService.getlistUser(Id_user).enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<User> users = response.body();
+                    if (!users.isEmpty()) {
+                        User user = users.get(0);
+                        tv_username_account.setText(user.getTendangnhap());
+                        tv_phone_account.setText(user.getSdt());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Log.e("AccountFragment", "Error loading user info", t);
+            }
+        });
+    }
+
+    private void showEditUsernameDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Edit Username");
+
+        // Set up the input
+        final EditText input = new EditText(getActivity());
+        input.setText(tv_username_account.getText().toString());
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String newUsername = input.getText().toString();
+                tv_username_account.setText(newUsername);
+
+                // Call API to update username on the server
+                updateUsername(newUsername);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void updateUsername(String newUsername) {
+        ApiUpdateUserInfo.apiService.updateUsername(Id_user, newUsername).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // Username updated successfully
+                    Log.d("AccountFragment", "Username updated successfully");
+                } else {
+                    // Handle error
+                    try {
+                        String errorBody = response.errorBody().string();
+                        Log.e("AccountFragment", "Failed to update username: " + errorBody);
+                    } catch (Exception e) {
+                        Log.e("AccountFragment", "Failed to update username and failed to read errorBody", e);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // Handle error
+                Log.e("AccountFragment", "Error updating username", t);
+            }
+        });
+    }
+
+    private void logout() {
+        // Xóa thông tin đăng nhập đã lưu trữ
+        SharedPreferences preferences = getActivity().getSharedPreferences("user_prefs", 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+
+        // Chuyển người dùng đến màn hình đăng nhập
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        getActivity().finish();
     }
 }

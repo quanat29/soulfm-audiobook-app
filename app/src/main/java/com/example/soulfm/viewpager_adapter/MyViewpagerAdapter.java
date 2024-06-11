@@ -35,7 +35,7 @@ public class MyViewpagerAdapter  extends FragmentStateAdapter {
                 return new BookcaseFragment();
 
             case 3:
-                return new AccountFragment();
+                return AccountFragment.newInstance(Id_user);
 
             default: return new HomeFragment();
         }

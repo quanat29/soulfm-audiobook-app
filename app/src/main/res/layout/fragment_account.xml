@@ -48,6 +48,7 @@
                     android:layout_margin="10dp">
 
                     <TextView
+                        android:id="@+id/tv_username_account"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -58,6 +59,7 @@
                         android:textSize="18sp"/>
 
                     <TextView
+                        android:id="@+id/tv_change_account"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="Thay đổi"
@@ -88,6 +90,7 @@
                     android:layout_margin="10dp">
 
                     <TextView
+                        android:id="@+id/tv_phone_account"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -100,6 +103,7 @@
                 </LinearLayout>
 
                 <Button
+                    android:id="@+id/btn_log_out"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Đăng xuất"
