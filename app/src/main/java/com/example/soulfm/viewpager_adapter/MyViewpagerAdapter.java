@@ -32,7 +32,7 @@ public class MyViewpagerAdapter  extends FragmentStateAdapter {
                 return TopicFragment.newInstance(Id_user);
 
             case 2:
-                return new BookcaseFragment();
+                return BookcaseFragment.newInstance(Id_user);
 
             case 3:
                 return AccountFragment.newInstance(Id_user);

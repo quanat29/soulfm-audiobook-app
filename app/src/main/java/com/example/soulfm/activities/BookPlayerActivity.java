@@ -174,7 +174,10 @@ public class BookPlayerActivity extends AppCompatActivity {
 
         iv_btn_down.setOnClickListener(view -> {
             saveBookInfo(idBook, currentChapterIndex);
-            Toast.makeText(BookPlayerActivity.this, "Book ID and current index saved", Toast.LENGTH_SHORT).show();
+            saveCurrentState();
+            transitionToMiniPlayer();
+            pauseAudio();
+            finish();
         });
 
         handler.postDelayed(updateSeekBar, 1000);
@@ -186,6 +189,23 @@ public class BookPlayerActivity extends AppCompatActivity {
         editor.putInt("idBook", idBook);
         editor.putInt("currentIndex", currentChapter);
         editor.apply();
+    }
+
+    private void saveCurrentState() {
+        if (audiobookService != null) {
+            int currentPosition = audiobookService.getCurrentPosition();
+            SharedPreferences preferences = getSharedPreferences("BookPlayerState", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("idBook", idBook);
+            editor.putInt("currentChapterIndex", currentChapterIndex);
+            editor.putInt("currentPosition", currentPosition);
+            editor.apply();
+        }
+    }
+
+    private void transitionToMiniPlayer() {
+        Intent intent = new Intent("com.example.soulfm.fragment.MiniPlayerFragment");
+        sendBroadcast(intent);
     }
 
     private void getChapter(int idBook) {

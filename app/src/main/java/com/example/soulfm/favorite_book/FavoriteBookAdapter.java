@@ -12,12 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.soulfm.R;
 import com.example.soulfm.book.Book;
+import com.example.soulfm.my_interface.IClickitemBookListener;
 
 import java.util.List;
 
 public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapter.FavoriteBookViewHolder>{
 
     private List<FavoriteBook> favoriteBooks;
+    private IClickitemBookListener iClickitemBookListener;
+
+    public FavoriteBookAdapter(IClickitemBookListener clickListener) {
+        this.iClickitemBookListener = clickListener;
+    }
 
     public void setData(List<FavoriteBook> favoriteBooks){
         this.favoriteBooks = favoriteBooks;
@@ -42,6 +48,17 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
         Glide.with(holder.iv_book.getContext())
                 .load(favoriteBook.getImage_url())
                 .into(holder.iv_book);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Book book = new Book(String.valueOf(favoriteBook.getId_book()),
+                        favoriteBook.getImage_url(), favoriteBook.getTitle(),
+                        favoriteBook.getAuthors());
+
+                iClickitemBookListener.clickItemBook(book);
+            }
+        });
     }
 
     @Override

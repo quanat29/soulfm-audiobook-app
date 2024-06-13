@@ -17,12 +17,12 @@
 
             <ImageView
                 android:id="@+id/iv_icon_back_trend"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                app:tint="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:src="@drawable/baseline_keyboard_arrow_left_24"/>
+                android:src="@drawable/baseline_keyboard_arrow_left_24"
+                app:tint="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"

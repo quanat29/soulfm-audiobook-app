@@ -6,9 +6,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -42,9 +40,9 @@ public class BookDetailActivity extends AppCompatActivity {
 
     private String title;
 
-    private ImageView iv_book_detail,iv_read_more, iv_icon_back_detail, iv_icon_heart_detail;
+    private ImageView iv_book_detail, iv_read_more, iv_icon_back_detail, iv_icon_heart_detail;
 
-    private TextView tv_name_book,tv_numRating,tv_book_introduce,tv_book_category,tv_author_name_detail;
+    private TextView tv_name_book, tv_numRating, tv_book_introduce, tv_book_category, tv_author_name_detail;
     private RatingBar rb_numStar;
     private Boolean isExpanded = false;
     private Boolean isFavorite = false;
@@ -79,7 +77,7 @@ public class BookDetailActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
 
-                switch (position){
+                switch (position) {
                     case 0:
                         bottom_navigation_book_detail.getMenu().findItem(R.id.menu_chapter).setChecked(true);
                         break;
@@ -94,7 +92,7 @@ public class BookDetailActivity extends AppCompatActivity {
         bottom_navigation_book_detail.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.menu_chapter:
                         view_pager_book_detail.setCurrentItem(0);
                         break;
@@ -102,14 +100,12 @@ public class BookDetailActivity extends AppCompatActivity {
                     case R.id.menu_comment:
                         view_pager_book_detail.setCurrentItem(1);
                         break;
-
                 }
                 return true;
             }
         });
 
-
-        //nhận dữ liệu
+        // nhận dữ liệu
         Bundle bundle = getIntent().getExtras();
         if (bundle == null) {
             return;
@@ -138,7 +134,7 @@ public class BookDetailActivity extends AppCompatActivity {
             Toast.makeText(this, "Không có dữ liệu sách hoặc trend book", Toast.LENGTH_SHORT).show();
         }
 
-        //click icon back
+        // click icon back
         iv_icon_back_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,7 +142,7 @@ public class BookDetailActivity extends AppCompatActivity {
             }
         });
 
-        //click icon favorite
+        // click icon favorite
         iv_read_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,7 +150,7 @@ public class BookDetailActivity extends AppCompatActivity {
             }
         });
 
-        //click favorite icon
+        // click favorite icon
         iv_icon_heart_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,7 +162,7 @@ public class BookDetailActivity extends AppCompatActivity {
             }
         });
 
-        //bắt sự kiện click btn nghe
+        // bắt sự kiện click btn nghe
         btn_listen_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,25 +173,22 @@ public class BookDetailActivity extends AppCompatActivity {
             }
         });
 
-        //lưu trạng thái vào share preference
+        // lưu trạng thái vào share preference
         restoreFavoriteColorState();
-
     }
 
-
-
     private void readMore() {
-        if(isExpanded){
+        if (isExpanded) {
             tv_book_introduce.setMaxLines(5);
             iv_read_more.setImageResource(R.drawable.baseline_keyboard_arrow_down_24);
-        }else {
+        } else {
             tv_book_introduce.setMaxLines(Integer.MAX_VALUE);
             iv_read_more.setImageResource(R.drawable.baseline_keyboard_arrow_up_24);
         }
         isExpanded = !isExpanded;
     }
 
-    private void callApiGetDetailBook(String title){
+    private void callApiGetDetailBook(String title) {
         ApiDetailBook.apiService.getDetailBook(title).enqueue(new Callback<List<DetailBook>>() {
             @Override
             public void onResponse(Call<List<DetailBook>> call, Response<List<DetailBook>> response) {
@@ -206,10 +199,19 @@ public class BookDetailActivity extends AppCompatActivity {
                     tv_numRating.setText(String.valueOf(bookDetail.getNum_comment()) + " đánh giá");
                     rb_numStar.setRating(Float.parseFloat(bookDetail.getNum_star()));
                     tv_author_name_detail.setText(bookDetail.getAuthors());
-                    tv_book_category.setText(bookDetail.getCategory());
+//                    tv_book_category.setText(bookDetail.getCategory());
                     Id_book = bookDetail.getId_book();
                     ViewpagerChapterAdapter viewpaperChapterAdapter = new ViewpagerChapterAdapter(BookDetailActivity.this, Id_book, Id_user);
                     view_pager_book_detail.setAdapter(viewpaperChapterAdapter);
+                    // Xử lý hiển thị tất cả thể loại
+                    StringBuilder categoriesBuilder = new StringBuilder();
+                    for (DetailBook detail : detailBooks) {
+                        if (categoriesBuilder.length() > 0) {
+                            categoriesBuilder.append(", "); // Thêm dấu phẩy giữa các thể loại
+                        }
+                        categoriesBuilder.append(detail.getCategory());
+                    }
+                    tv_book_category.setText(categoriesBuilder.toString());
 
                     checkIfFavorite(Id_user, Id_book);
                 } else {
@@ -220,7 +222,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<DetailBook>> call, Throwable t) {
-            
+                Toast.makeText(BookDetailActivity.this, "Đã xảy ra lỗi khi gọi API", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -263,55 +265,21 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     private void addFavoriteBook(int id_user, int id_book) {
-        // Gọi API để lấy danh sách các cuốn sách yêu thích của người dùng
-        ApiFavoriteBook.apiService.getListFavoriteBook(id_user).enqueue(new Callback<List<FavoriteBook>>() {
+        ApiAddFavoriteBook.apiService.addFavoriteBook(id_book, id_user).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<List<FavoriteBook>> call, Response<List<FavoriteBook>> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    List<FavoriteBook> favoriteBooks = response.body();
-                    // Kiểm tra xem Id_book của cuốn sách có trong danh sách yêu thích không
-                    boolean isBookInFavorites = false;
-                    iv_icon_heart_detail.setColorFilter(getResources().getColor(R.color.white));
-                    for (FavoriteBook book : favoriteBooks) {
-                        if (book.getId_book() == id_book) {
-                            isBookInFavorites = true;
-                            break;
-                        }
-                    }
-                    // Nếu cuốn sách đã tồn tại trong danh sách yêu thích
-                    if (isBookInFavorites) {
-                        Toast.makeText(BookDetailActivity.this, "Cuốn sách đã tồn tại trong danh sách yêu thích", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // Nếu cuốn sách chưa tồn tại trong danh sách yêu thích, thêm vào
-                        ApiAddFavoriteBook.apiService.addFavoriteBook(id_book, id_user).enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                if (response.isSuccessful()) {
-                                    saveFavoriteColorState(true);
-                                    iv_icon_heart_detail.setColorFilter(getResources().getColor(R.color.red));
-
-                                    Toast.makeText(BookDetailActivity.this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(BookDetailActivity.this, "Không thể thêm sách vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(BookDetailActivity.this, "Đã xảy ra lỗi khi thêm sách vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                    saveFavoriteColorState(true);
+                    iv_icon_heart_detail.setColorFilter(getResources().getColor(R.color.red));
+                    Toast.makeText(BookDetailActivity.this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Xử lý khi không thể lấy danh sách yêu thích từ máy chủ
-                    Toast.makeText(BookDetailActivity.this, "Không thể lấy danh sách yêu thích từ máy chủ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BookDetailActivity.this, "Không thể thêm sách vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<FavoriteBook>> call, Throwable t) {
-                // Xử lý khi gặp lỗi trong quá trình gọi API
-                Toast.makeText(BookDetailActivity.this, "Đã xảy ra lỗi khi gọi API", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(BookDetailActivity.this, "Đã xảy ra lỗi khi thêm sách vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -347,7 +315,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
     // Phương thức để khôi phục trạng thái màu yêu thích của ImageView
     private void restoreFavoriteColorState() {
-        boolean isFavorite = sharedPreferences.getBoolean("is_favorite", false);
+        boolean isFavorite = sharedPreferences.getBoolean("is_favorite_" + Id_book, false);
         if (isFavorite) {
             iv_icon_heart_detail.setColorFilter(getResources().getColor(R.color.red));
         } else {

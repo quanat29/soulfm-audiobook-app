@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     private CircleImageView iv_image_book;
     private TextView tv_name_mini, tv_chapter_mini;
     private ImageView iv_play_mini, iv_close_mini;
-    private AudiobookService audiobookService;
     private boolean isServiceBound = false;
     private int savedBookId, currentChapterIndex;
 
@@ -186,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                // Truyền Id_user sang SearchActivity
+                intent.putExtra("Id_user", Id_user);
                 startActivity(intent);
             }
         });

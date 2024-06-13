@@ -29,6 +29,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         this.Id_user = Id_user;
         notifyDataSetChanged();
     }
+
+    public void clearData(){
+        mBooks.clear();
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

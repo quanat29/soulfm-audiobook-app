@@ -30,9 +30,6 @@
             android:name=".activities.SplashActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.EditCollectionActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.TrendBookActivity"
             android:exported="false" />
         <activity

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.soulfm.R;
+import com.example.soulfm.my_interface.IClickItemBookcaseCategory;
 
 import java.util.List;
 
@@ -17,8 +18,11 @@ public class BookcaseCategoryAdapter extends RecyclerView.Adapter<BookcaseCatego
 
     private List<BookcaseCategory> mlists;
 
-    public void setData(List<BookcaseCategory> mlists){
+    private IClickItemBookcaseCategory iClickItemBookcaseCategory;
+
+    public void setData(List<BookcaseCategory> mlists, IClickItemBookcaseCategory iClickItemBookcaseCategory){
         this.mlists = mlists;
+        this.iClickItemBookcaseCategory = iClickItemBookcaseCategory;
         notifyDataSetChanged();
     }
 
@@ -37,6 +41,7 @@ public class BookcaseCategoryAdapter extends RecyclerView.Adapter<BookcaseCatego
         }
         holder.iv_list_bookcase.setImageResource(bookcaseCategory.getId());
         holder.tv_title_list_bookcase.setText(bookcaseCategory.getTitle());
+        holder.bind(bookcaseCategory, iClickItemBookcaseCategory);
     }
 
     @Override
@@ -55,6 +60,10 @@ public class BookcaseCategoryAdapter extends RecyclerView.Adapter<BookcaseCatego
 
             iv_list_bookcase = itemView.findViewById(R.id.iv_icon_list_bookcase);
             tv_title_list_bookcase = itemView.findViewById(R.id.tv_title_list_bookcase);
+        }
+
+        public void bind(BookcaseCategory bookcaseCategory, IClickItemBookcaseCategory iClickItemBookcaseCategory) {
+            itemView.setOnClickListener(view -> iClickItemBookcaseCategory.clickItemBookcaseCategory(bookcaseCategory));
         }
     }
 }

@@ -2,7 +2,9 @@ package com.example.soulfm.fragment;
 
 import static android.content.Intent.getIntent;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -35,12 +37,7 @@ import retrofit2.Response;
  */
 public class MiniPlayerFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private static final String ARG_ID_BOOK = "idBook";
     private static final String ARG_CURRENT_INDEX = "currentChapterIndex";
     private View mView;
@@ -61,6 +58,24 @@ public class MiniPlayerFragment extends Fragment {
         args.putInt(ARG_CURRENT_INDEX, currentChapterIndex);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private BroadcastReceiver miniPlayerReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("com.example.soulfm.fragment.MiniPlayerFragment".equals(intent.getAction())) {
+                updateMiniPlayerUI();
+            }
+        }
+    };
+
+    private void updateMiniPlayerUI() {
+        if (chapters != null && !chapters.isEmpty()) {
+            Chapter chapter = chapters.get(currentChapterIndex);
+            Glide.with(iv_image_book.getContext()).load(chapter.getAnhbia()).into(iv_image_book);
+            tv_chapter_mini.setText("Chương " + chapter.getEpisode() + ": " + chapter.getTenchapter());
+            tv_name_mini.setText(chapter.getTensach());
+        }
     }
 
     @Override
