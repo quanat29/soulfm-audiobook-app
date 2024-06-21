@@ -1,10 +1,14 @@
 package com.example.soulfm.fragment;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,7 @@ import com.example.soulfm.R;
 import com.example.soulfm.activities.LoginActivity;
 import com.example.soulfm.api.ApiUpdateUserInfo;
 import com.example.soulfm.api.ApiUserInfo;
+import com.example.soulfm.services.AudiobookService;
 import com.example.soulfm.user.User;
 
 import java.util.List;
@@ -33,6 +38,8 @@ public class AccountFragment extends Fragment {
     private int Id_user;
     private TextView tv_username_account, tv_change_account, tv_phone_account;
     private Button btn_log_out;
+    private AudiobookService audiobookService;
+    private boolean isBound = false;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -58,7 +65,6 @@ public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         tv_username_account = view.findViewById(R.id.tv_username_account);
         tv_phone_account = view.findViewById(R.id.tv_phone_account);
@@ -80,7 +86,20 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        // Bind to the AudiobookService
+        Intent intent = new Intent(getActivity(), AudiobookService.class);
+        getActivity().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (isBound) {
+            getActivity().unbindService(serviceConnection);
+            isBound = false;
+        }
     }
 
     private void loadUserInfo() {
@@ -106,21 +125,17 @@ public class AccountFragment extends Fragment {
 
     private void showEditUsernameDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Edit Username");
+        builder.setTitle("");
 
-        // Set up the input
         final EditText input = new EditText(getActivity());
         input.setText(tv_username_account.getText().toString());
         builder.setView(input);
 
-        // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String newUsername = input.getText().toString();
                 tv_username_account.setText(newUsername);
-
-                // Call API to update username on the server
                 updateUsername(newUsername);
             }
         });
@@ -139,10 +154,8 @@ public class AccountFragment extends Fragment {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    // Username updated successfully
                     Log.d("AccountFragment", "Username updated successfully");
                 } else {
-                    // Handle error
                     try {
                         String errorBody = response.errorBody().string();
                         Log.e("AccountFragment", "Failed to update username: " + errorBody);
@@ -154,23 +167,39 @@ public class AccountFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                // Handle error
                 Log.e("AccountFragment", "Error updating username", t);
             }
         });
     }
 
     private void logout() {
-        // Xóa thông tin đăng nhập đã lưu trữ
+        if (isBound && audiobookService != null) {
+            audiobookService.stopService();
+        }
+
         SharedPreferences preferences = getActivity().getSharedPreferences("user_prefs", 0);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.apply();
 
-        // Chuyển người dùng đến màn hình đăng nhập
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         getActivity().finish();
     }
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            AudiobookService.LocalBinder binder = (AudiobookService.LocalBinder) service;
+            audiobookService = binder.getService();
+            isBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            audiobookService = null;
+            isBound = false;
+        }
+    };
 }

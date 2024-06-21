@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.soulfm.R;
 import com.example.soulfm.list_bookcase.BookcaseCategoryAdapter;
 
@@ -39,9 +40,11 @@ public class BookHeardAdapter extends RecyclerView.Adapter<BookHeardAdapter.Book
         if(bookHeard == null){
             return;
         }
-        holder.iv_image_book_heard.setImageResource(bookHeard.getImageSource());
-        holder.sb_book_heard.setProgress(bookHeard.getProcess());
         holder.tv_book_heard_name.setText(bookHeard.getTitle());
+        holder.sb_book_heard.setProgress(Integer.parseInt(bookHeard.getCurrentduration()));
+        Glide.with(holder.iv_image_book_heard.getContext())
+                .load(bookHeard.getImage_url())
+                .into(holder.iv_image_book_heard);
     }
 
     @Override

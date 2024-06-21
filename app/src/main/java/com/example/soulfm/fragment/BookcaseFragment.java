@@ -95,7 +95,7 @@ public class BookcaseFragment extends Fragment {
     private List<BookcaseCategory> getListTopicCategory() {
         List<BookcaseCategory> bookcaseCategories = new ArrayList<>();
 
-        bookcaseCategories.add(new BookcaseCategory(R.drawable.headphone, "Sách đã nghe"));
+//        bookcaseCategories.add(new BookcaseCategory(R.drawable.headphone, "Sách đã nghe"));
         bookcaseCategories.add(new BookcaseCategory(R.drawable.favourite, "Sách yêu thích"));
 
         return bookcaseCategories;

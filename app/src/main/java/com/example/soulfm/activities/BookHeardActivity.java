@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.soulfm.R;
@@ -29,20 +30,16 @@ public class BookHeardActivity extends AppCompatActivity {
         rcv_book_heard.setLayoutManager(gridLayoutManager);
         bookHeardAdapter.setData(getBookHeardList());
         rcv_book_heard.setAdapter(bookHeardAdapter);
+
+        Intent intent = getIntent();
+        int idBook = intent.getIntExtra("idBook", -1);
+        int chapterIndex = intent.getIntExtra("chapterIndex", -1);
+        int currentPosition = intent.getIntExtra("currentPosition", -1);
     }
 
     private List<BookHeard> getBookHeardList() {
         List<BookHeard> bookHeardList = new ArrayList<>();
-        bookHeardList.add(new BookHeard(R.drawable.image_book,"Cha giàu cha nghèo",40));
-        bookHeardList.add(new BookHeard(R.drawable.image_book,"Cha giàu cha nghèo",40));
-        bookHeardList.add(new BookHeard(R.drawable.image_book,"Cha giàu cha nghèo",40));
-        bookHeardList.add(new BookHeard(R.drawable.image_book,"Cha giàu cha nghèo",40));
-        bookHeardList.add(new BookHeard(R.drawable.image_book,"Cha giàu cha nghèo",40));
-        bookHeardList.add(new BookHeard(R.drawable.image_book,"Cha giàu cha nghèo",40));
-        bookHeardList.add(new BookHeard(R.drawable.image_book,"Cha giàu cha nghèo",40));
-        bookHeardList.add(new BookHeard(R.drawable.image_book,"Cha giàu cha nghèo",40));
-        bookHeardList.add(new BookHeard(R.drawable.image_book,"Cha giàu cha nghèo",40));
-        bookHeardList.add(new BookHeard(R.drawable.image_book,"Cha giàu cha nghèo",40));
+
 
         return bookHeardList;
     }

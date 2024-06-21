@@ -108,10 +108,10 @@ public class HomeFragment extends Fragment implements IClickitemViewAllListener{
 
 
         List<Category> listCategory = new ArrayList<>();
-        listCategory.add(new Category("Top Trending", "View All", new ArrayList<>()));
-        listCategory.add(new Category("Recommended books", "View All", new ArrayList<>()));
-        listCategory.add(new Category("Literary Category", "View All", new ArrayList<>()));
-        listCategory.add(new Category("Art Category", "View All", new ArrayList<>()));
+        listCategory.add(new Category("Top Trending", "Xem tất cả", new ArrayList<>()));
+        listCategory.add(new Category("Có thể bạn sẽ thích", "Xem tất cả", new ArrayList<>()));
+        listCategory.add(new Category("Thể loại văn học", "Xem tất cả", new ArrayList<>()));
+        listCategory.add(new Category("Thể loại nghệ thuật", "Xem tất cả", new ArrayList<>()));
 
         return  listCategory;
 

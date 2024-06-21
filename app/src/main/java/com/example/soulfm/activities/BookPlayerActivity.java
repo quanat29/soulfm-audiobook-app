@@ -92,6 +92,7 @@ public class BookPlayerActivity extends AppCompatActivity {
         tv_seekbar_time = findViewById(R.id.tv_seekbar_time);
         progressBar = findViewById(R.id.progressBar);
 
+
         Intent intent = getIntent();
         idBook = intent.getIntExtra("id_book", -1);
         playFirstEpisode = intent.getBooleanExtra("play_first_episode", false);
@@ -238,6 +239,14 @@ public class BookPlayerActivity extends AppCompatActivity {
             iv_btn_play.setImageResource(R.drawable.play_button);
             stopChapterNameAnimation();
         }
+    }
+
+    private void saveCurrentChapterInfo(int currentChapterIndex, int currentPosition) {
+        Intent intent = new Intent(BookPlayerActivity.this, BookHeardActivity.class);
+        intent.putExtra("idBook", idBook); // Pass idBook to BookHeardActivity
+        intent.putExtra("chapterIndex", currentChapterIndex);
+        intent.putExtra("currentPosition", currentPosition);
+        startActivity(intent);
     }
 
     private void stopChapterNameAnimation() {
